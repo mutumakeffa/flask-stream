@@ -3,10 +3,12 @@
 <html>
     <head>
         <title>
+            <!-- Replaced by value of title keyword argument to render_template -->
             {{ title }}
         </title>
     </head>
     <body>
+        <!-- Unordered list of flash messages -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul class=flashes>
@@ -17,6 +19,7 @@
             {% endif %}
         {% endwith %}
 
+        <!-- Replaced by templates that extend layout.html -->
         {% block body %}{% endblock %}
     </body>
 </html>

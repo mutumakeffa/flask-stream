@@ -11,6 +11,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 def get_user(username):
+    """ Returns username's row from csv file if it exists """
+
     with open("users.csv") as users_file:
         rows = csv.reader(users_file)
         for row in rows:
@@ -25,12 +27,16 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # Ensure user is not logged in
     if session.get("username"):
         flash("must <a href='/logout'>logout</a> first")
         return redirect("/")
 
+    # Handle GET requests
     if request.method == "GET":
         return render_template("register.html", title="Register")
+
+    # Handle POST requests
     else:
         # Get username and password from form
         username = request.form.get("username")
@@ -58,16 +64,27 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # Handle GET requests
     if request.method == "GET":
         return render_template("login.html", title="Login")
+
+    # Handle POST requests
     else:
+        # Get username and password from form
         username = request.form.get("username")
         password = request.form.get("password")
-        if not username or not password:
-            abort(400, description="missing username and/or password")
 
+        # Ensure username and password were submitted
+        if not username or not password:
+            abort(400, description="missing username or password")
+
+        # Get user's row from csv
         user = get_user(username)
+
+        # Ensure user was registered and password matches
         if user and user[1] == password:
+
+            # Remember user in session
             session["username"] = username
             return redirect("/")
 

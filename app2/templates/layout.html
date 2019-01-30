@@ -3,10 +3,13 @@
 <html>
     <head>
         <title>
+            <!-- Replaced by value of title keyword argument to render_template -->
             {{ title }}
         </title>
     </head>
     <body>
+
+        <!-- Replaced by templates that extend layout.html -->
         {% block body %}{% endblock %}
     </body>
 </html>
