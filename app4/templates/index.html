@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% if username %}
+    Hello, {{ username }}! <a href="/logout">Logout?</a>
+    <br>
+    <form action="/post" method="post">
+        <textarea name="content" placeholder="What's on your mind???"></textarea>
+        <input type="submit" value="Post">
+    </form>
+{% else %}
+    Hello there! <a href="/login">Login</a> or <a href="/register">Register?</a> 
+{% endif %}
+
+<div id="posts">
+    {% for post in posts %}
+        <div class="post">{{ post["content"] }} <span class="small">by {{ post["author"] }} at {{ post["datetime"] }}</span></div>
+    {% endfor %}
+    <div id="message">No posts yet.</div>
+</div>
+
+<style>
+    form {
+        margin-top: 16px;
+    }
+
+    input[type=submit] {
+        display: block;
+    }
+
+    textarea {
+        width: 512px;
+        height: 64px;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    #posts {
+        margin-top: 16px;
+    }
+
+    .post {
+        padding: 16px;
+        border-bottom: 1px solid #aaa;
+    }
+
+    .small {
+        font-size: 12px;
+        font-color: #aaa;
+        margin-left: 5px;
+    }
+
+    #message {
+        display: none;
+    }
+
+    #message:first-child {
+        display: block;
+    }
+
+</style>
+
+{% endblock %}
